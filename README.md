@@ -62,6 +62,17 @@ Complete documentation is available in the [wiki](wiki/):
 - ✅ Configurable quality presets
 - ✅ Comprehensive test coverage
 
+## Performance
+
+Evaluated on FEVER dataset (100 samples, GPT-4o):
+
+| Configuration | Overall | SUPPORTS | REFUTES | NOT ENOUGH INFO |
+|---------------|---------|----------|---------|-----------------|
+| Web Search    | 71%     | 88%      | 82%     | 42%             |
+| Wikipedia-only| 72%     | 91%      | 88%     | 36%             |
+
+See [`evals/`](evals/) for evaluation scripts and detailed results.
+
 ## Technology Stack
 
 - **LangGraph** - Workflow orchestration
