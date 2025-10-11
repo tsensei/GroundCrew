@@ -44,4 +44,6 @@ Thumbs.db
 *.log
 output/
 results/
+*report.md
+fact-check-*.md
 

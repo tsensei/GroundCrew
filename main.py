@@ -2,6 +2,7 @@
 
 import os
 import sys
+import argparse
 from dotenv import load_dotenv
 
 from groundcrew.workflow import run_fact_check
@@ -34,6 +35,36 @@ def print_report(state):
 def main():
     """Main function"""
     
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description="GroundCrew - Automated fact-checking system",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python main.py "The Eiffel Tower is 330 meters tall"
+  python main.py "Your claim" --output report.md
+  python main.py "Your claim" -o report.md --model gpt-4
+        """
+    )
+    parser.add_argument(
+        "text",
+        nargs="*",
+        help="Text to fact-check (default: example text)"
+    )
+    parser.add_argument(
+        "-o", "--output",
+        metavar="FILE",
+        help="Save report to markdown file"
+    )
+    parser.add_argument(
+        "-m", "--model",
+        default="gpt-4o-mini",
+        choices=["gpt-4o-mini", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"],
+        help="OpenAI model to use (default: gpt-4o-mini)"
+    )
+    
+    args = parser.parse_args()
+    
     # Load environment variables
     load_dotenv()
     
@@ -51,8 +82,8 @@ def main():
         sys.exit(1)
     
     # Get input text
-    if len(sys.argv) > 1:
-        input_text = " ".join(sys.argv[1:])
+    if args.text:
+        input_text = " ".join(args.text)
     else:
         # Default example text with factual claims
         input_text = """
@@ -70,7 +101,8 @@ def main():
             input_text=input_text.strip(),
             openai_api_key=openai_api_key,
             tavily_api_key=tavily_api_key,
-            model_name="gpt-4o-mini"  # Can be changed to "gpt-4" for better quality
+            model_name=args.model,
+            output_file=args.output
         )
         
         # Display results
