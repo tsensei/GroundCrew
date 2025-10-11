@@ -211,7 +211,8 @@ def process_single_claim(
     openai_api_key: str,
     tavily_api_key: str,
     index: int,
-    model_name: str = "gpt-4o-mini"
+    model_name: str = "gpt-4o-mini",
+    wikipedia_only: bool = False
 ) -> Dict:
     """
     Process a single FEVER claim.
@@ -237,11 +238,13 @@ def process_single_claim(
             true_label = label_map.get(true_label, "NOT ENOUGH INFO")
         
         # Run GroundCrew fact-check
+        search_domain = "wikipedia.org" if wikipedia_only else None
         result = run_fact_check(
             input_text=claim,
             openai_api_key=openai_api_key,
             tavily_api_key=tavily_api_key,
-            model_name=model_name
+            model_name=model_name,
+            search_domain=search_domain
         )
         
         # Get prediction
@@ -287,7 +290,8 @@ def evaluate_on_fever(
     output_file: str = "fever_evaluation_results.json",
     data_dir: str = "data/fever",
     max_workers: int = 10,
-    model_name: str = "gpt-4o-mini"
+    model_name: str = "gpt-4o-mini",
+    wikipedia_only: bool = False
 ) -> Dict:
     """
     Evaluate GroundCrew on FEVER dataset with parallel processing.
@@ -298,6 +302,7 @@ def evaluate_on_fever(
         data_dir: Directory containing FEVER data
         max_workers: Number of parallel workers (default: 10)
         model_name: OpenAI model to use (default: gpt-4o-mini)
+        wikipedia_only: Restrict search to Wikipedia only (recommended for FEVER)
         
     Returns:
         Dictionary with evaluation metrics and results
@@ -333,6 +338,8 @@ def evaluate_on_fever(
     
     print(f"\n{'='*70}")
     print(f"Evaluating GroundCrew on FEVER Dataset (Parallel: {max_workers} workers)")
+    if wikipedia_only:
+        print("🔍 Search restricted to: Wikipedia only")
     print(f"{'='*70}\n")
     
     # Process claims in parallel
@@ -345,7 +352,8 @@ def evaluate_on_fever(
                 openai_api_key,
                 tavily_api_key,
                 i,
-                model_name
+                model_name,
+                wikipedia_only
             ): i for i, item in enumerate(fever_data)
         }
         
@@ -424,7 +432,8 @@ def evaluate_on_fever(
             "split": "dev",
             "num_samples": len(fever_data),
             "model": model_name,
-            "max_workers": max_workers
+            "max_workers": max_workers,
+            "wikipedia_only": wikipedia_only
         },
         "overall_metrics": {
             "accuracy": accuracy,
@@ -543,6 +552,11 @@ if __name__ == "__main__":
         choices=["gpt-4o-mini", "gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"],
         help="OpenAI model to use (default: gpt-4o-mini)"
     )
+    parser.add_argument(
+        "--wikipedia-only",
+        action="store_true",
+        help="Restrict search to Wikipedia only (recommended for FEVER evaluation)"
+    )
     
     args = parser.parse_args()
     
@@ -554,6 +568,7 @@ if __name__ == "__main__":
             output_file=args.output,
             data_dir=args.data_dir,
             max_workers=args.workers,
-            model_name=args.model
+            model_name=args.model,
+            wikipedia_only=args.wikipedia_only
         )
 

@@ -57,9 +57,10 @@ Extract factual claims from this text and assign each a priority (1-10, higher i
 class EvidenceSearchAgent:
     """Agent responsible for retrieving evidence for claims"""
     
-    def __init__(self, llm: ChatOpenAI, tavily_client: TavilyClient):
+    def __init__(self, llm: ChatOpenAI, tavily_client: TavilyClient, search_domain: str = None):
         self.llm = llm
         self.tavily = tavily_client
+        self.search_domain = search_domain  # e.g., "wikipedia.org" to restrict to Wikipedia
         # Create structured output LLM
         self.structured_llm = llm.with_structured_output(SearchQueries)
     
@@ -88,11 +89,17 @@ Generate search queries that will find relevant evidence."""
             evidence_list = []
             for query in queries[:2]:  # Limit to 2 queries per claim
                 try:
-                    search_results = self.tavily.search(
-                        query=query,
-                        max_results=3,
-                        search_depth="advanced"
-                    )
+                    search_params = {
+                        "query": query,
+                        "max_results": 3,
+                        "search_depth": "advanced"
+                    }
+                    
+                    # Restrict to specific domain if specified (e.g., Wikipedia)
+                    if self.search_domain:
+                        search_params["include_domains"] = [self.search_domain]
+                    
+                    search_results = self.tavily.search(**search_params)
                     
                     for result in search_results.get('results', []):
                         evidence = Evidence(
@@ -136,20 +143,44 @@ class VerificationAgent:
                 evidence_text = "No evidence found."
             
             prompt = f"""You are an expert fact-checker responsible for verifying claims.
-Analyze the claim and the evidence provided, then determine:
-1. Status: Must be one of: "SUPPORTS" (evidence confirms the claim), "REFUTES" (evidence contradicts the claim), or "NOT ENOUGH INFO" (insufficient evidence)
-2. Confidence: a score from 0 to 1
-3. Justification: a clear explanation of your reasoning
 
-Be objective and base your verdict strictly on the evidence provided.
-Use the exact status labels: SUPPORTS, REFUTES, or NOT ENOUGH INFO (these are FEVER dataset compliant labels).
+CRITICAL INSTRUCTIONS FOR ACCURATE VERIFICATION:
+
+Before making a SUPPORTS or REFUTES judgment, you MUST verify:
+1. The evidence DIRECTLY addresses the SPECIFIC details in the claim
+2. The evidence is COMPLETE enough to verify ALL parts of the claim
+3. You are NOT making assumptions or inferences beyond what the evidence explicitly states
+
+DEFAULT TO "NOT ENOUGH INFO" when:
+- Evidence is related but doesn't address the SPECIFIC claim details
+- Evidence provides general context but not specific facts claimed
+- ANY part of the claim is not directly confirmed or refuted by evidence
+- Evidence is tangential or only partially relevant
+- You cannot find direct confirmation (absence of evidence ≠ REFUTES)
+
+COMMON PITFALLS TO AVOID:
+- Claim: "Founded by two men" | Evidence: "Founded by Arnold Hills and Dave Taylor" 
+  → This is NOT ENOUGH INFO (doesn't explicitly confirm "two")
+- Claim: "Worked on a sitcom in 2007" | Evidence: "Worked on TV shows in 2007"
+  → This is NOT ENOUGH INFO (doesn't confirm "sitcom" specifically)
+- Claim: "Person X is in Movie Y" | Evidence: Lists other movies
+  → This is NOT ENOUGH INFO (absence isn't refutation)
+- Claim has specific details | Evidence is general
+  → This is NOT ENOUGH INFO
+
+BE CONSERVATIVE: When in doubt, choose NOT ENOUGH INFO over making assumptions.
+
+Now analyze this claim:
 
 Claim: {claim.text}
 
 Evidence:
 {evidence_text}
 
-Provide your verdict:"""
+Provide your verdict with:
+1. Status: "SUPPORTS", "REFUTES", or "NOT ENOUGH INFO" 
+2. Confidence: 0 to 1 (lower confidence for partial/indirect evidence)
+3. Justification: Explain whether evidence DIRECTLY addresses ALL claim specifics"""
             
             try:
                 verdict_output: VerdictOutput = self.structured_llm.invoke(prompt)

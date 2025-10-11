@@ -24,7 +24,8 @@ def create_fact_check_workflow(
     openai_api_key: str,
     tavily_api_key: str,
     model_name: str = "gpt-4o-mini",
-    temperature: float = 0.0
+    temperature: float = 0.0,
+    search_domain: str = None
 ):
     """
     Creates a sequential fact-checking workflow using LangGraph.
@@ -34,6 +35,7 @@ def create_fact_check_workflow(
         tavily_api_key: Tavily API key
         model_name: OpenAI model to use
         temperature: Temperature for LLM responses
+        search_domain: Optional domain to restrict search (e.g., "wikipedia.org")
         
     Returns:
         Compiled LangGraph workflow
@@ -49,7 +51,7 @@ def create_fact_check_workflow(
     
     # Initialize agents
     claim_agent = ClaimExtractionAgent(llm)
-    evidence_agent = EvidenceSearchAgent(llm, tavily_client)
+    evidence_agent = EvidenceSearchAgent(llm, tavily_client, search_domain)
     verification_agent = VerificationAgent(llm)
     reporting_agent = ReportingAgent(llm)
     
@@ -110,7 +112,8 @@ def run_fact_check(
     openai_api_key: str,
     tavily_api_key: str,
     model_name: str = "gpt-4o-mini",
-    output_file: str = None
+    output_file: str = None,
+    search_domain: str = None
 ) -> FactCheckState:
     """
     Run the complete fact-checking pipeline on input text.
@@ -121,6 +124,7 @@ def run_fact_check(
         tavily_api_key: Tavily API key
         model_name: OpenAI model to use
         output_file: Optional path to save report as markdown file
+        search_domain: Optional domain to restrict search (e.g., "wikipedia.org")
         
     Returns:
         Final FactCheckState with all results
@@ -128,6 +132,8 @@ def run_fact_check(
     
     print("\n" + "="*70)
     print("GROUNDCREW - Automated Fact-Checking Workflow")
+    if search_domain:
+        print(f"🔍 Search restricted to: {search_domain}")
     print("="*70)
     print(f"\nInput: {input_text[:200]}{'...' if len(input_text) > 200 else ''}\n")
     
@@ -135,7 +141,8 @@ def run_fact_check(
     workflow = create_fact_check_workflow(
         openai_api_key=openai_api_key,
         tavily_api_key=tavily_api_key,
-        model_name=model_name
+        model_name=model_name,
+        search_domain=search_domain
     )
     
     # Initialize state

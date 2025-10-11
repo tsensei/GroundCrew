@@ -62,7 +62,12 @@ Examples:
         choices=["gpt-4o-mini", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"],
         help="OpenAI model to use (default: gpt-4o-mini)"
     )
-    
+    parser.add_argument(
+        "--wikipedia-only",
+        action="store_true",
+        help="Restrict search to Wikipedia only (useful for FEVER-like evaluation)"
+    )
+
     args = parser.parse_args()
     
     # Load environment variables
@@ -97,12 +102,15 @@ Examples:
     
     try:
         # Run fact-checking workflow
+        search_domain = "wikipedia.org" if args.wikipedia_only else None
+        
         result = run_fact_check(
             input_text=input_text.strip(),
             openai_api_key=openai_api_key,
             tavily_api_key=tavily_api_key,
             model_name=args.model,
-            output_file=args.output
+            output_file=args.output,
+            search_domain=search_domain
         )
         
         # Display results
