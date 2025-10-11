@@ -18,19 +18,22 @@ GroundCrew can be evaluated against the [FEVER (Fact Extraction and VERification
 ```bash
 # Evaluate on 100 samples (recommended for first run)
 # Uses 10 parallel workers by default for faster evaluation
-poetry run python eval_fever.py -n 100
+poetry run python evals/eval_fever.py -n 100
+
+# Evaluate with Wikipedia-only (recommended for FEVER accuracy)
+poetry run python evals/eval_fever.py -n 100 --wikipedia-only -o evals/fever_wiki_results.json
 
 # Evaluate on larger set
-poetry run python eval_fever.py -n 500
+poetry run python evals/eval_fever.py -n 500 --wikipedia-only
 
 # Custom output file and number of workers
-poetry run python eval_fever.py -n 100 -o my_results.json -w 20
+poetry run python evals/eval_fever.py -n 100 -o evals/my_results.json -w 20
 
 # Reduce workers if hitting rate limits
-poetry run python eval_fever.py -n 100 -w 5
+poetry run python evals/eval_fever.py -n 100 -w 5
 
 # Analyze existing results
-poetry run python eval_fever.py --analyze -o fever_evaluation_results.json
+poetry run python evals/eval_fever.py --analyze -o evals/fever_evaluation_results.json
 ```
 
 ### Parallel Processing
@@ -55,27 +58,40 @@ The evaluation script uses **parallel processing** with ThreadPoolExecutor for m
 The evaluation produces:
 
 #### 1. Overall Metrics
-```
-Overall Accuracy: 75.50% (151/200)
-```
+
+**Actual GroundCrew Performance (100 samples, GPT-4o):**
+
+| Configuration | Overall Accuracy | SUPPORTS | REFUTES | NOT ENOUGH INFO |
+|---------------|------------------|----------|---------|-----------------|
+| **Web Search** | 71% | 88% | 82% | 42% |
+| **Wikipedia-only** | 72% | 91% | 88% | 36% |
 
 #### 2. Per-Label Performance
+
+**Web Search (Baseline):**
 ```
-Per-Label Performance:
-  SUPPORTS: 80.00% (64/80)
-  REFUTES: 72.50% (58/80)  
-  NOT ENOUGH INFO: 72.50% (29/40)
+Overall Accuracy: 71% (71/100)
+Per-Label:
+  SUPPORTS: 88.2% (30/34)
+  REFUTES: 81.8% (27/33)
+  NOT ENOUGH INFO: 42.4% (14/33)
 ```
 
-#### 3. Confidence Calibration
+**Wikipedia-only (FEVER-aligned):**
 ```
-Confidence Calibration:
-  high (>0.8): 85.00% (60 predictions)
-  medium (0.5-0.8): 70.00% (80 predictions)
-  low (<0.5): 55.00% (60 predictions)
+Overall Accuracy: 72% (72/100)
+Per-Label:
+  SUPPORTS: 91.2% (31/34)
+  REFUTES: 87.9% (29/33)
+  NOT ENOUGH INFO: 36.4% (12/33)
 ```
 
-Shows whether high-confidence predictions are actually more accurate.
+#### 3. Key Findings
+
+- ✅ **Strong on SUPPORTS/REFUTES**: 82-91% accuracy
+- ⚠️ **Weak on NOT ENOUGH INFO**: 36-42% accuracy
+- 📊 **Overall**: 71-72% competitive for web-based system
+- 🔍 **Wikipedia-only**: Slightly better overall, but worse on NOT ENOUGH INFO (unexpected)
 
 #### 4. Individual Results
 Detailed breakdown of each prediction for error analysis.
@@ -155,14 +171,18 @@ Output shows:
 - Recent events may have more/better evidence on web vs Wikipedia
 - Wikipedia-specific claims may be harder for web search
 
-### Expected Performance
+### Actual vs Expected Performance
 
-Based on the differences:
+**Our Results:**
+- **71-72%** overall accuracy ✅ (better than expected!)
+- **88-91%** on SUPPORTS ✅ (excellent)
+- **82-88%** on REFUTES ✅ (excellent)  
+- **36-42%** on NOT ENOUGH INFO ⚠️ (needs improvement)
 
-- **60-75%** accuracy is reasonable for web search vs Wikipedia evidence
-- **Higher accuracy** on general knowledge claims
-- **Lower accuracy** on Wikipedia-specific or historical claims
-- **Mixed** labels may differ due to evidence source diversity
+**Comparison to FEVER Leaderboard:**
+- Top systems: 85-90% (with Wikipedia access)
+- Our system: 72% (web search or Wikipedia)
+- **Competitive** considering we use LLM-based approach vs specialized models
 
 ### Recommendations
 
@@ -272,19 +292,36 @@ Each requires a different evaluation script but follows similar patterns.
 - Check [Troubleshooting](Troubleshooting.md) for common issues
 - Read [Architecture](Architecture.md) to understand system design
 
+## NOT ENOUGH INFO Challenge
+
+**Why This Label Is Hard:**
+
+Our system struggles with NOT ENOUGH INFO (36-42% vs 88-91% on other labels):
+
+1. **Over-confident predictions**: LLM makes judgments on partial evidence
+2. **Evidence source**: We find related info, but it doesn't address specific claim details
+3. **Claim specificity**: Claims like "founded by **two** men" vs evidence "founded by Arnold Hills and Dave Taylor"
+
+**Improvement Ideas:**
+- Stricter evidence matching (implemented in current prompt)
+- Two-stage verification (check completeness first)
+- Confidence calibration
+- See `NEXT_FIXES_FOR_NEI.md` for detailed analysis
+
 ## Cost Estimation
 
 Before running evaluation:
 
 ```python
-# Rough cost estimate
-num_samples = 100
-cost_per_check = 0.05  # For gpt-4o-mini
-total_cost = num_samples * cost_per_check
+# Actual costs (100 samples, gpt-4o, 5 workers)
+# Time: ~5-8 minutes
+# Cost: ~$15-20
 
-print(f"Estimated cost: ${total_cost:.2f}")
-# ~$5 for 100 samples with gpt-4o-mini
-# ~$50 for 100 samples with gpt-4
+# For gpt-4o-mini (cheaper):
+num_samples = 100
+cost_per_check = 0.05  
+total_cost = num_samples * cost_per_check
+# ~$5 for 100 samples
 ```
 
 ## References

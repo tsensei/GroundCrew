@@ -48,8 +48,7 @@ results/
 fact-check-*.md
 
 # Evaluation results
-fever_evaluation_results.json
-*_evaluation_results.json
-eval_results/
+evals/fever_*.json
+evals/*_results.json
 data/fever/
 
