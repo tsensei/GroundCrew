@@ -27,6 +27,19 @@ class Evidence(BaseModel):
     relevance_score: float = Field(default=0.0, description="How relevant this evidence is (0-1)")
 
 
+class EvidenceCompletenessCheck(BaseModel):
+    """Evidence completeness assessment (Stage 1 of verification)"""
+    is_complete: bool = Field(
+        description="Does the evidence contain ALL necessary information to verify the claim?"
+    )
+    completeness_score: float = Field(
+        description="Completeness score (0-1)", ge=0.0, le=1.0
+    )
+    missing_elements: str = Field(
+        description="What specific information is missing or unclear in the evidence?"
+    )
+
+
 class VerdictOutput(BaseModel):
     """Verification verdict output from LLM (without evidence)"""
     status: Literal["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"] = Field(
