@@ -1,0 +1,30 @@
+[project]
+name = "groundcrew"
+version = "1.0.0"
+description = "A team of agents that “ground” claims in sources"
+authors = [
+    {name = "Talha Jubair Siam",email = "talha@askturing.ai"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = "3.12.6"
+dependencies = [
+    "langgraph (>=0.6.10,<0.7.0)",
+    "langchain (>=0.3.27,<0.4.0)",
+    "langchain-openai (>=0.3.35,<0.4.0)",
+    "langchain-community (>=0.3.31,<0.4.0)",
+    "tavily-python (>=0.7.12,<0.8.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "pydantic (>=2.12.0,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+black = "^25.9.0"
+ruff = "^0.14.0"
+
