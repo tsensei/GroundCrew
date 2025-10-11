@@ -210,7 +210,8 @@ def process_single_claim(
     item: Dict,
     openai_api_key: str,
     tavily_api_key: str,
-    index: int
+    index: int,
+    model_name: str = "gpt-4o-mini"
 ) -> Dict:
     """
     Process a single FEVER claim.
@@ -220,6 +221,7 @@ def process_single_claim(
         openai_api_key: OpenAI API key
         tavily_api_key: Tavily API key
         index: Claim index (for tracking)
+        model_name: OpenAI model to use
         
     Returns:
         Result dictionary with prediction and metadata
@@ -239,7 +241,7 @@ def process_single_claim(
             input_text=claim,
             openai_api_key=openai_api_key,
             tavily_api_key=tavily_api_key,
-            model_name="gpt-4o-mini"
+            model_name=model_name
         )
         
         # Get prediction
@@ -284,7 +286,8 @@ def evaluate_on_fever(
     num_samples: int = 100,
     output_file: str = "fever_evaluation_results.json",
     data_dir: str = "data/fever",
-    max_workers: int = 10
+    max_workers: int = 10,
+    model_name: str = "gpt-4o-mini"
 ) -> Dict:
     """
     Evaluate GroundCrew on FEVER dataset with parallel processing.
@@ -294,6 +297,7 @@ def evaluate_on_fever(
         output_file: Path to save results
         data_dir: Directory containing FEVER data
         max_workers: Number of parallel workers (default: 10)
+        model_name: OpenAI model to use (default: gpt-4o-mini)
         
     Returns:
         Dictionary with evaluation metrics and results
@@ -340,7 +344,8 @@ def evaluate_on_fever(
                 item,
                 openai_api_key,
                 tavily_api_key,
-                i
+                i,
+                model_name
             ): i for i, item in enumerate(fever_data)
         }
         
@@ -418,7 +423,8 @@ def evaluate_on_fever(
             "dataset": "FEVER",
             "split": "dev",
             "num_samples": len(fever_data),
-            "model": "gpt-4o-mini"
+            "model": model_name,
+            "max_workers": max_workers
         },
         "overall_metrics": {
             "accuracy": accuracy,
@@ -531,6 +537,12 @@ if __name__ == "__main__":
         default=10,
         help="Number of parallel workers (default: 10)"
     )
+    parser.add_argument(
+        "-m", "--model",
+        default="gpt-4o-mini",
+        choices=["gpt-4o-mini", "gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"],
+        help="OpenAI model to use (default: gpt-4o-mini)"
+    )
     
     args = parser.parse_args()
     
@@ -541,6 +553,7 @@ if __name__ == "__main__":
             num_samples=args.num_samples,
             output_file=args.output,
             data_dir=args.data_dir,
-            max_workers=args.workers
+            max_workers=args.workers,
+            model_name=args.model
         )
 

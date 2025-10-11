@@ -1,0 +1,1047 @@
+{
+  "metadata": {
+    "timestamp": "2025-10-11T15:24:13.777445",
+    "dataset": "FEVER",
+    "split": "dev",
+    "num_samples": 100,
+    "model": "gpt-4o-mini"
+  },
+  "overall_metrics": {
+    "accuracy": 0.65,
+    "correct": 65,
+    "total": 100
+  },
+  "per_label_metrics": {
+    "SUPPORTS": {
+      "accuracy": 0.8529411764705882,
+      "correct": 29,
+      "total": 34
+    },
+    "REFUTES": {
+      "accuracy": 0.9090909090909091,
+      "correct": 30,
+      "total": 33
+    },
+    "NOT ENOUGH INFO": {
+      "accuracy": 0.18181818181818182,
+      "correct": 6,
+      "total": 33
+    }
+  },
+  "confidence_calibration": {
+    "high (>0.8)": {
+      "accuracy": 0.6629213483146067,
+      "count": 89
+    },
+    "medium (0.5-0.8)": {
+      "accuracy": 0.5454545454545454,
+      "count": 11
+    },
+    "low (<0.5)": {
+      "accuracy": 0,
+      "count": 0
+    }
+  },
+  "individual_results": [
+    {
+      "index": 0,
+      "claim": "An exampled of a folk hero was Bhagat Singh.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence provided confirms that Bhagat Singh became a popular folk hero after his death, as stated in multiple sources. The snippets highlight his status as a symbol of resistance against colonial",
+      "error": null
+    },
+    {
+      "index": 1,
+      "claim": "Yemen does not have an area of 203,850 square miles.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The claim states that Yemen does not have an area of 203,850 square miles. The evidence provided indicates that Yemen's area is approximately 204,000 square miles according to one source, and around 1",
+      "error": null
+    },
+    {
+      "index": 2,
+      "claim": "Stadium Arcadium was released in or before 1997.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that 'Stadium Arcadium' was released on May 9, 2006. This directly contradicts the claim that it was released in or before 1997. The high confidence score reflects the cons",
+      "error": null
+    },
+    {
+      "index": 3,
+      "claim": "West Ham United F.C. was founded by two men.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence clearly states that West Ham United F.C. was founded by Arnold Hills, and there is no mention of a second individual involved in the founding. Therefore, the claim that it was founded by ",
+      "error": null
+    },
+    {
+      "index": 4,
+      "claim": "Annie is a movie.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided confirms that 'Annie' refers to both a 1982 and a 2014 film, both of which are categorized as musical comedy-drama films. The snippets from the sources explicitly state that 'Ann",
+      "error": null
+    },
+    {
+      "index": 5,
+      "claim": "Carlos Santana is a musician.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided from multiple reputable sources confirms that Carlos Santana is indeed a musician. The snippets describe him as a guitarist, composer, and band-leader, and detail his contributio",
+      "error": null
+    },
+    {
+      "index": 6,
+      "claim": "AMGTV has pay per view programming.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": true,
+      "confidence": 0.5,
+      "justification": "The evidence provided does not explicitly mention whether AMGTV has pay-per-view programming. While it describes the network's content and ownership, it does not confirm or deny the existence of pay-p",
+      "error": null
+    },
+    {
+      "index": 7,
+      "claim": "The Mod Squad is a horror series.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly indicates that 'The Mod Squad' is a crime drama series, not a horror series. The sources describe it as an American crime drama that aired from 1968 to 1973, and there is no menti",
+      "error": null
+    },
+    {
+      "index": 8,
+      "claim": "Joseph Goebbels' Propaganda Ministry controlled the news media, arts, and information in Russi.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence provided indicates that Joseph Goebbels' Propaganda Ministry controlled the news media, arts, and information in Nazi Germany, not in Russia. The sources detail Goebbels' influence over G",
+      "error": null
+    },
+    {
+      "index": 9,
+      "claim": "Mutiny on the Bounty was adapted exactly once into a movie.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly indicates that 'Mutiny on the Bounty' has been adapted into multiple films, specifically listing at least four adaptations: 'The Mutiny of the Bounty' (1916), 'In the Wake of the ",
+      "error": null
+    },
+    {
+      "index": 10,
+      "claim": "Penguin Books is a whore house.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim that 'Penguin Books is a whore house' is clearly contradicted by the evidence provided. The sources describe Penguin Books as a reputable publishing house, detailing its history, corporate s",
+      "error": null
+    },
+    {
+      "index": 11,
+      "claim": "Ekta Kapoor worked on a sitcom in 2007.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence confirms that Ekta Kapoor worked on a sitcom in 2007, specifically mentioning the show 'Kya Dill Mein Hai' which aired in December 2007. This directly supports the claim that she was invo",
+      "error": null
+    },
+    {
+      "index": 12,
+      "claim": "Richard Kuklinski committed crimes.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided confirms that Richard Kuklinski was involved in multiple criminal activities, including being a contract killer and being convicted of several murders. Sources indicate he was of",
+      "error": null
+    },
+    {
+      "index": 13,
+      "claim": "Alice Cooper was born on February 4th, 1948.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 1.0,
+      "justification": "The evidence from multiple reputable sources, including Wikipedia and Britannica, consistently states that Alice Cooper was born on February 4, 1948. This confirms the claim without any contradictions",
+      "error": null
+    },
+    {
+      "index": 14,
+      "claim": "The only rapper to host Weekly Idol is Common.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim states that Common is the only rapper to host 'Weekly Idol.' However, the evidence indicates that the show was originally hosted by rapper Defconn alongside comedian Jeong Hyeong-don. This d",
+      "error": null
+    },
+    {
+      "index": 15,
+      "claim": "Ukrainian Soviet Socialist Republic was a founding member of the UN.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided from multiple sources confirms that the Ukrainian Soviet Socialist Republic (Ukrainian SSR) was indeed a founding member of the United Nations. The snippets explicitly state that",
+      "error": null
+    },
+    {
+      "index": 16,
+      "claim": "Firefox is one of the most popular web browsers.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence indicates that Firefox's market share has significantly declined over the years, currently standing at around 2.91% in 2024. This low percentage places it well below other browsers like G",
+      "error": null
+    },
+    {
+      "index": 17,
+      "claim": "Quay premiered in 2001.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly states that the film _Quay_ premiered on 19 August 2015. This directly contradicts the claim that it premiered in 2001. Therefore, the claim is refuted.",
+      "error": null
+    },
+    {
+      "index": 18,
+      "claim": "Guns N' Roses started in 1980.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Guns N' Roses was formed in March 1985, which directly contradicts the claim that they started in 1980. Multiple sources confirm the formation date as 1985, providing ",
+      "error": null
+    },
+    {
+      "index": 19,
+      "claim": "Homo sapiens are on the IUCN Red List.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence indicates that Homo sapiens are classified as 'least concern' on the IUCN Red List, which means they are not considered threatened or at risk of extinction. Therefore, the claim that Homo",
+      "error": null
+    },
+    {
+      "index": 20,
+      "claim": "Alan White was an Ambassador from California to Boston.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The claim states that Alan White was an Ambassador from California to Boston. However, the evidence provided does not support this claim. The snippets reference different individuals named Alan White,",
+      "error": null
+    },
+    {
+      "index": 21,
+      "claim": "Chris Mullin played with a professional basketball team in the 1990s.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Chris Mullin played for the Golden State Warriors from 1985 until 1997, which includes the entire decade of the 1990s. This confirms the claim that he played with a pr",
+      "error": null
+    },
+    {
+      "index": 22,
+      "claim": "Stephen Moyer acted in a film adaptation of a book.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence confirms that Stephen Moyer acted in film adaptations of books, specifically mentioning his role in the film adaptation of 'Prince Valiant' and his role in the television series 'True Blo",
+      "error": null
+    },
+    {
+      "index": 23,
+      "claim": "On May 19, 1945, Ian Gillan was born.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The claim states that Ian Gillan was born on May 19, 1945. However, the evidence from multiple sources, including a biography and Wikipedia, clearly states that Ian Gillan was born on August 19, 1945.",
+      "error": null
+    },
+    {
+      "index": 24,
+      "claim": "Ted Cruz has only ever been a plumber his whole life.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim that Ted Cruz has only ever been a plumber is directly contradicted by multiple sources that detail his extensive career in politics and law. Cruz graduated from Princeton University and Har",
+      "error": null
+    },
+    {
+      "index": 25,
+      "claim": "Quentin Tarantino's original screenplay was the basis for the film Natural Born Killers.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly indicates that Quentin Tarantino wrote the original screenplay for Natural Born Killers, which is confirmed by multiple sources including Wikipedia and CinemaBlend. The Wikipedia ",
+      "error": null
+    },
+    {
+      "index": 26,
+      "claim": "Rob Sheridan was born in 1976.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence consistently states that Rob Sheridan was born on October 11, 1979. This directly contradicts the claim that he was born in 1976. Multiple sources confirm the same birth date, providing a",
+      "error": null
+    },
+    {
+      "index": 27,
+      "claim": "The Ellen Show was created by an act of providence.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The claim that 'The Ellen Show was created by an act of providence' suggests a divine or supernatural influence in its creation. However, the evidence provided clearly states that Ellen DeGeneres, alo",
+      "error": null
+    },
+    {
+      "index": 28,
+      "claim": "Resident Evil is an unadapted video game.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim that 'Resident Evil is an unadapted video game' is contradicted by the evidence provided. The sources indicate that 'Resident Evil' is a video game franchise that has been adapted into vario",
+      "error": null
+    },
+    {
+      "index": 29,
+      "claim": "Mellila is a city.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided from multiple sources confirms that Melilla is indeed a city. The Wikipedia entry explicitly states that Melilla is a city located in northwest Africa, and other sources describe",
+      "error": null
+    },
+    {
+      "index": 30,
+      "claim": "Punch-Drunk Love features Jeremy Blake's abstract video art.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Jeremy Blake created abstract video art for the film 'Punch-Drunk Love', specifically mentioning that his work appears as visual interludes in the film. Multiple sourc",
+      "error": null
+    },
+    {
+      "index": 31,
+      "claim": "Benzodiazepine is a medication.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that benzodiazepines are a class of medications used to treat various conditions, including anxiety and seizures. Multiple sources confirm that they are prescribed and regu",
+      "error": null
+    },
+    {
+      "index": 32,
+      "claim": "James, Viscount Severn was born in the 2000s.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that James, Viscount Severn, was born on December 17, 2007. This confirms that he was indeed born in the 2000s, directly supporting the claim.",
+      "error": null
+    },
+    {
+      "index": 33,
+      "claim": "I Want to Know What Love Is is a single.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence confirms that 'I Want to Know What Love Is' is indeed a single, as it was released by the band Foreigner in 1984 and later covered by Mariah Carey in 2009, also as a single. Multiple sour",
+      "error": null
+    },
+    {
+      "index": 34,
+      "claim": "George Harrison has been single his whole life.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that George Harrison was married twice: first to Pattie Boyd from 1966 to 1977, and then to Olivia Arias from 1978 until his death in 2001. Therefore, the claim that he ",
+      "error": null
+    },
+    {
+      "index": 35,
+      "claim": "The Maze Runner is a motion picture.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that _The Maze Runner_ is a 2014 American dystopian science fiction film, confirming that it is indeed a motion picture. Multiple sources corroborate this information, deta",
+      "error": null
+    },
+    {
+      "index": 36,
+      "claim": "Mike Friedrich is only German.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim that Mike Friedrich is only German is contradicted by the evidence indicating that he is an American comic book writer and publisher. The Wikipedia entry explicitly states that he is America",
+      "error": null
+    },
+    {
+      "index": 37,
+      "claim": "Gin is a berry flavoured spirit.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.8,
+      "justification": "The claim that gin is a berry-flavoured spirit is misleading. While gin is flavored with juniper berries, which are essential to its production, the predominant flavor of gin is not necessarily berry-",
+      "error": null
+    },
+    {
+      "index": 38,
+      "claim": "Gray Matter Interactive Studios, Inc. was a person.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly states that Gray Matter Interactive Studios, Inc. was an American video game developer, not a person. The use of 'Inc.' indicates that it is a corporation, which is a legal entity",
+      "error": null
+    },
+    {
+      "index": 39,
+      "claim": "Keith Stanfield is in Twilight.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence provided does not mention LaKeith Stanfield being part of the cast of 'Twilight' or having any involvement in that film series. Instead, it lists his roles in other films and projects, co",
+      "error": null
+    },
+    {
+      "index": 40,
+      "claim": "Military deception is a form of disinformation.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence provided clearly defines military deception as actions taken to mislead adversary decision makers, which aligns with the concept of disinformation. The snippets from the sources indicate ",
+      "error": null
+    },
+    {
+      "index": 41,
+      "claim": "Baz Luhrmann's film Waluigi is an epic historical romantic drama.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The claim that Baz Luhrmann directed the film 'Waluigi' is refuted by the evidence provided. The sources indicate that Waluigi is a character from the Mario franchise and does not mention any film dir",
+      "error": null
+    },
+    {
+      "index": 42,
+      "claim": "Sancho Panza is a character in a novel written by an author.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly confirms that Sancho Panza is a character in the novel 'Don Quixote' by Miguel de Cervantes. Multiple sources explicitly state that he is a fictional character in this specific no",
+      "error": null
+    },
+    {
+      "index": 43,
+      "claim": "Britt Robertson is an entertainer.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence consistently describes Britt Robertson as an accomplished actor, confirming her status as an entertainer. Multiple sources highlight her career in film and television, detailing her roles",
+      "error": null
+    },
+    {
+      "index": 44,
+      "claim": "Pearl Jam sold many of their own rock songs in the early 1990s.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.8,
+      "justification": "The claim states that Pearl Jam sold many of their own rock songs in the early 1990s. However, the evidence provided indicates that Pearl Jam was primarily focused on creating and performing their mus",
+      "error": null
+    },
+    {
+      "index": 45,
+      "claim": "Temple Grandin stars Melissa McCarthy as Temple Grandin.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly states that Claire Danes stars as Temple Grandin in the film 'Temple Grandin,' while there is no mention of Melissa McCarthy being involved in this role. Therefore, the claim that",
+      "error": null
+    },
+    {
+      "index": 46,
+      "claim": "Maximum Overdrive is a film from 1986.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided from multiple sources, including Wikipedia and IMDb, confirms that 'Maximum Overdrive' was indeed released on July 25, 1986. This consistent information across credible sources s",
+      "error": null
+    },
+    {
+      "index": 47,
+      "claim": "Staton is the middle name of Matt Bomer.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 1.0,
+      "justification": "The evidence clearly states that Matt Bomer's full name is Matthew Staton Bomer, confirming that 'Staton' is indeed his middle name.",
+      "error": null
+    },
+    {
+      "index": 48,
+      "claim": "Invasion literature is a genre of fiction.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence provided clearly defines invasion literature as a literary genre, specifically mentioning its popularity and characteristics. The sources confirm that invasion literature is recognized as",
+      "error": null
+    },
+    {
+      "index": 49,
+      "claim": "Muscarinic acetylcholine receptors are actylcholine receptors.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that muscarinic acetylcholine receptors are a type of acetylcholine receptor, specifically identifying them as a subfamily of G protein-coupled receptors that respond to th",
+      "error": null
+    },
+    {
+      "index": 50,
+      "claim": "There were grammies won by Stadium Arcadium.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that 'Stadium Arcadium' won four Grammy Awards at the 49th Grammy Awards in 2007, including Best Rock Album and Best Rock Performance by a Duo or Group with Vocal. Multiple",
+      "error": null
+    },
+    {
+      "index": 51,
+      "claim": "A person who was born in August discovered Uranium-235.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence clearly states that Uranium-235 was discovered in 1935 by Arthur Jeffrey Dempster. There is no mention of a person born in August being involved in this discovery. Therefore, the claim is",
+      "error": null
+    },
+    {
+      "index": 52,
+      "claim": "Polar bears are dependent on international aid.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": true,
+      "confidence": 0.6,
+      "justification": "The evidence provided discusses potential foreign aid for polar bear protection but does not establish that polar bears are dependent on international aid. The claim implies a necessity for aid for th",
+      "error": null
+    },
+    {
+      "index": 53,
+      "claim": "Polynesian languages include Tahitian.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Tahitian is one of the prominent Polynesian languages, alongside others like Samoan, Tongan, and M\u0101ori. Multiple sources confirm that Tahitian is included in the Polyn",
+      "error": null
+    },
+    {
+      "index": 54,
+      "claim": "Ian Brennan is a film director.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Ian Brennan is an American screenwriter, director, and actor. Multiple sources confirm his role as a director, particularly in relation to his work on television shows",
+      "error": null
+    },
+    {
+      "index": 55,
+      "claim": "Australia (2008 film) production took place in Kununurra.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence clearly states that production for the film 'Australia' took place in Kununurra, along with other locations such as Sydney and Darwin. Multiple sources confirm Kununurra as a filming loca",
+      "error": null
+    },
+    {
+      "index": 56,
+      "claim": "The genre of Colombiana is action.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly identifies 'Colombiana' as an 'action thriller film' in multiple sources, including Wikipedia and IMDb. The descriptions emphasize the film's action elements, such as revenge and ",
+      "error": null
+    },
+    {
+      "index": 57,
+      "claim": "The 14th Dalai Lama lives in Thailand.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that the 14th Dalai Lama, Tenzin Gyatso, has resided in McLeod Ganj, Dharamshala, India since 1959. There is no mention of him living in Thailand, which directly contradict",
+      "error": null
+    },
+    {
+      "index": 58,
+      "claim": "Baloch people are part of a diverse Indo-European ethno-linguistic group and they are cultured.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence confirms that the Baloch people are an ethnic group that speaks the Balochi language, which is classified as a Western Iranic language, part of the larger Indo-European language family. T",
+      "error": null
+    },
+    {
+      "index": 59,
+      "claim": "Benjamin Walker (actor) is a thespian.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that Benjamin Walker is an American actor who has performed in various theatrical productions, including notable roles on Broadway. The term 'thespian' refers to an acto",
+      "error": null
+    },
+    {
+      "index": 60,
+      "claim": "Talulah Riley appeared in Worcester.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": true,
+      "confidence": 0.5,
+      "justification": "The evidence provided does not confirm or deny whether Talulah Riley has appeared in Worcester specifically. While it lists her film and television credits, as well as her involvement in various event",
+      "error": null
+    },
+    {
+      "index": 61,
+      "claim": "Luis Fonsi's given name, which he does not use when performing, is Luis Alfonso Rodr\u00edguez L\u00f3pez-Cepero.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 1.0,
+      "justification": "The evidence provided from multiple sources confirms that Luis Fonsi's full name is indeed Luis Alfonso Rodr\u00edguez L\u00f3pez-Cepero. Both the Simple English Wikipedia and the All American Speakers website ",
+      "error": null
+    },
+    {
+      "index": 62,
+      "claim": "Advertising is used to promote a product and it is important to modern civilization.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence provided from multiple sources indicates that advertising plays a significant role in modern society by promoting products, shaping cultural norms, and contributing to economic growth. Th",
+      "error": null
+    },
+    {
+      "index": 63,
+      "claim": "Larry the Cable Guy series finale aired on the the day of 29th.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that the series finale of 'Larry the Cable Guy' aired on August 28, 2013. This directly contradicts the claim that it aired on the 29th. Therefore, the claim is refuted.",
+      "error": null
+    },
+    {
+      "index": 64,
+      "claim": "Tatum O'Neal spent her life single.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim that Tatum O'Neal spent her life single is contradicted by the evidence provided. Tatum O'Neal was previously married to John McEnroe from 1986 to 1994 and has had several relationships, inc",
+      "error": null
+    },
+    {
+      "index": 65,
+      "claim": "A monster is frequently ugly.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence provided consistently describes monsters as often being hideous, frightening, or possessing threatening features. For instance, one source states that monsters are 'often hideous and may ",
+      "error": null
+    },
+    {
+      "index": 66,
+      "claim": "Libya is a country outside of Africa.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Libya is a country located in North Africa, specifically in the Maghreb region. Multiple sources confirm its geographical location within Africa, and there is no evide",
+      "error": null
+    },
+    {
+      "index": 67,
+      "claim": "Henry III of France was murdered.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Henry III of France was assassinated on August 1, 1589, by Jacques Cl\u00e9ment, a Dominican friar. Multiple sources confirm the event, detailing the circumstances of his a",
+      "error": null
+    },
+    {
+      "index": 68,
+      "claim": "Chumlee is the stage name of Tom Cruise.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that Chumlee is the stage name of Austin Lee Russell, not Tom Cruise. Multiple sources confirm that Tom Cruise is the stage name of Thomas Cruise Mapother IV. Therefore, th",
+      "error": null
+    },
+    {
+      "index": 69,
+      "claim": "Sean Penn was in Vietnam.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": true,
+      "confidence": 0.5,
+      "justification": "The evidence provided discusses Sean Penn's involvement in the film 'Casualties of War,' which is set during the Vietnam War, and mentions his character's actions within that context. However, there i",
+      "error": null
+    },
+    {
+      "index": 70,
+      "claim": "United States Congressmen make up The Blue Dog Coalition.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence confirms that the Blue Dog Coalition is a caucus of moderate members from the Democratic Party in the United States House of Representatives. The sources provided detail the membership an",
+      "error": null
+    },
+    {
+      "index": 71,
+      "claim": "Uganda was not a protectorate.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that Uganda was established as a British protectorate in 1894, which directly contradicts the claim that Uganda was not a protectorate. Multiple sources confirm that Uga",
+      "error": null
+    },
+    {
+      "index": 72,
+      "claim": "The IPhone 4 was marketed by Apple Inc..",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that the iPhone 4 was marketed by Apple Inc. The snippets from various sources confirm that Apple Corporation employs strategic marketing methods, including television a",
+      "error": null
+    },
+    {
+      "index": 73,
+      "claim": "Toy Story 2 was released by North Korea.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that Toy Story 2 was produced by Pixar Animation Studios and distributed by Walt Disney Pictures, with its release date being November 24, 1999, in the United States. Th",
+      "error": null
+    },
+    {
+      "index": 74,
+      "claim": "The Residenztheater is where Hedda Gabler's world premiere took place.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that the world premiere of 'Hedda Gabler' took place on January 31, 1891, at the Residenztheater in Munich. Multiple sources confirm this information, providing a strong ba",
+      "error": null
+    },
+    {
+      "index": 75,
+      "claim": "Girl is by Waluigi.",
+      "true_label": "REFUTES",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": false,
+      "confidence": 0.5,
+      "justification": "The evidence provided discusses Waluigi and his associations with various characters and songs, but it does not directly confirm or refute the claim that 'Girl is by Waluigi.' There is no specific men",
+      "error": null
+    },
+    {
+      "index": 76,
+      "claim": "Ludwig van Beethoven was abandoned by his father Johann van Beethoven and Christian Gottlob Neefe.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.8,
+      "justification": "The evidence indicates that Johann van Beethoven was not absent from Ludwig's life in a way that would constitute abandonment. Instead, it describes Johann as an abusive father who struggled with alco",
+      "error": null
+    },
+    {
+      "index": 77,
+      "claim": "Aaron Burr was a pacifist.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence provided indicates that Aaron Burr was involved in military service and political conflicts, including a notable duel with Alexander Hamilton, which contradicts the notion of him being a ",
+      "error": null
+    },
+    {
+      "index": 78,
+      "claim": "Easy A is written by a stork.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The claim that 'Easy A' is written by a stork is directly contradicted by the evidence provided, which clearly states that the film was written by Bert V. Royal. Multiple sources confirm that Bert V. ",
+      "error": null
+    },
+    {
+      "index": 79,
+      "claim": "Fred Seibert only produces for satellite television.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence indicates that Fred Seibert has produced content for various platforms, including cable television and the internet, not just satellite television. His roles at MTV Networks, Hanna-Barber",
+      "error": null
+    },
+    {
+      "index": 80,
+      "claim": "Knowledge and research in multiple fields is incorporated with Speech recognition.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence provided indicates that interdisciplinary research is indeed being integrated into speech recognition technology. For instance, the first source discusses the cyclic training of speech sy",
+      "error": null
+    },
+    {
+      "index": 81,
+      "claim": "See.SZA.Run is influenced by Jay-Z and Lil Kim.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": true,
+      "confidence": 0.5,
+      "justification": "The evidence provided does not explicitly confirm or refute the claim that See.SZA.Run is influenced by Jay-Z. While SZA acknowledges Jay-Z's brilliance and mentions her first encounter with him, ther",
+      "error": null
+    },
+    {
+      "index": 82,
+      "claim": "After its revival in 2009 Hair (musical) won a Tony.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that 'Hair' won the Tony Award for 'Best Revival of a Musical' at the 2009 Tony Awards, confirming the claim. Multiple sources corroborate this information, including a You",
+      "error": null
+    },
+    {
+      "index": 83,
+      "claim": "Road House is only a book.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim that 'Road House is only a book' is contradicted by the evidence provided, which clearly indicates that 'Road House' is a film, specifically a reimagining of the original 1980s movie. Multip",
+      "error": null
+    },
+    {
+      "index": 84,
+      "claim": "Fist of Legend is a direct sequel to Fist of Fury.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The evidence indicates that 'Fist of Legend' is a remake of 'Fist of Fury' rather than a direct sequel. Multiple sources confirm that 'Fist of Legend' is derived from the original 1972 film starring B",
+      "error": null
+    },
+    {
+      "index": 85,
+      "claim": "Bea Arthur was born on May 13th, 1922 in a log cabin.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "Multiple reliable sources confirm that Bea Arthur was born on May 13, 1922, in New York City. The evidence from the biography and other reputable sites consistently states this date, providing strong ",
+      "error": null
+    },
+    {
+      "index": 86,
+      "claim": "The Raven (2012 film) was released in the United States on April 27, 2012.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that 'The Raven' was released in the United States on April 27, 2012, confirming the claim. Multiple sources corroborate this release date, providing a high level of confid",
+      "error": null
+    },
+    {
+      "index": 87,
+      "claim": "Paramore is not a rock band.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence provided from multiple sources clearly identifies Paramore as a rock band, specifically mentioning genres such as pop-punk, emo, and alternative rock. The claim that Paramore is not a roc",
+      "error": null
+    },
+    {
+      "index": 88,
+      "claim": "Malta claims to be the historical Melita mentioned in the New Testament.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence provided confirms that Melita, as mentioned in the New Testament, is generally identified with Malta. Multiple sources, including biblical references and historical context, support the c",
+      "error": null
+    },
+    {
+      "index": 89,
+      "claim": "Balibo (film) is a song.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that 'Balibo' is a 2009 Australian war film about the Balibo Five, a group of journalists, and does not mention it being a song. The references to music in the evidence ",
+      "error": null
+    },
+    {
+      "index": 90,
+      "claim": "Keith Urban was released by a Belgian-based record label.",
+      "true_label": "REFUTES",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": false,
+      "confidence": 0.5,
+      "justification": "The evidence provided does not mention a Belgian-based record label or any details about Keith Urban being released by such a label. The sources discuss his current collaborations and releases but do ",
+      "error": null
+    },
+    {
+      "index": 91,
+      "claim": "Craig David is a retired music performer.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence provided indicates that Craig David is actively involved in music, with upcoming live shows scheduled in 2025 and a new album titled 'Commitment' being promoted. This contradicts the clai",
+      "error": null
+    },
+    {
+      "index": 92,
+      "claim": "Veeram is an award-winning film.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence indicates that 'Veeram' received several nominations for awards but did not win any. Specifically, it was nominated for the Vijay Awards and Filmfare Awards South but did not achieve any ",
+      "error": null
+    },
+    {
+      "index": 93,
+      "claim": "Nate Diaz competed in California for Strikeforce.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence clearly indicates that Nate Diaz competed in a Strikeforce event titled 'Strikeforce: Shamrock vs. Gracie' on March 10, 2006, in San Jose, California. This directly supports the claim tha",
+      "error": null
+    },
+    {
+      "index": 94,
+      "claim": "The King and I is based on a semi-fictionalized biographical novel by a preacher.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The evidence confirms that 'The King and I' is based on the novel 'Anna and the King of Siam' by Margaret Landon, which itself is derived from the memoirs of Anna Leonowens, a real-life governess. The",
+      "error": null
+    },
+    {
+      "index": 95,
+      "claim": "A River Runs Through It has been nominated for an Oscar.",
+      "true_label": "SUPPORTS",
+      "predicted_label": "SUPPORTS",
+      "correct": true,
+      "confidence": 0.95,
+      "justification": "The evidence confirms that 'A River Runs Through It' was nominated for three Academy Awards, including Best Adapted Screenplay and Best Original Score, and it won Best Cinematography. This directly su",
+      "error": null
+    },
+    {
+      "index": 96,
+      "claim": "Natasha Lyonne is also known as Natasha Rebecca Lyonne Renner.",
+      "true_label": "REFUTES",
+      "predicted_label": "REFUTES",
+      "correct": true,
+      "confidence": 0.9,
+      "justification": "The claim states that Natasha Lyonne is also known as Natasha Rebecca Lyonne Renner. However, the evidence indicates that her full name is Natasha Bianca Lyonne Braunstein, and there is no mention of ",
+      "error": null
+    },
+    {
+      "index": 97,
+      "claim": "Exotic Birds opened for Queen.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "NOT ENOUGH INFO",
+      "correct": true,
+      "confidence": 0.5,
+      "justification": "The evidence provided mentions that Exotic Birds opened for other bands like Culture Club and Eurythmics, but there is no specific information confirming or denying that they opened for Queen. Therefo",
+      "error": null
+    },
+    {
+      "index": 98,
+      "claim": "There were 3,090,953 Mormon members in Germany.",
+      "true_label": "NOT ENOUGH INFO",
+      "predicted_label": "REFUTES",
+      "correct": false,
+      "confidence": 0.9,
+      "justification": "The claim states that there are 3,090,953 Mormon members in Germany. However, the evidence provided does not support this figure. The sources do not mention any membership numbers for Germany that app",
+      "error": null
+    },
+    {
+      "index": 99,
+      "claim": "The Little Prince (2015 film) is a 3D animated television show.",
+      "true_label": "REFUTES",
+      "predicted_label": "SUPPORTS",
+      "correct": false,
+      "confidence": 0.95,
+      "justification": "The evidence clearly states that 'The Little Prince' is a 2015 film, confirming the claim. Multiple sources corroborate this information, detailing its release dates and production details, which all ",
+      "error": null
+    }
+  ]
+}
