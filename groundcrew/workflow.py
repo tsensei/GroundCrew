@@ -80,7 +80,7 @@ def create_fact_check_workflow(
         """Node for report generation"""
         fact_check_state = state["state"]
         updated_state = reporting_agent.generate_report(fact_check_state)
-        print(f"✓ Generated final report")
+        print("✓ Generated final report")
         return {"state": updated_state}
     
     # Create the workflow graph
@@ -190,12 +190,12 @@ def _save_report_to_markdown(state: FactCheckState, filepath: str) -> None:
 
 """
     
-        for i, verdict in enumerate(state.verdicts, 1):
-            status_emoji = {
-                "SUPPORTS": "✅",
-                "REFUTES": "❌",
-                "NOT ENOUGH INFO": "❓"
-            }.get(verdict.status, "•")
+    for i, verdict in enumerate(state.verdicts, 1):
+        status_emoji = {
+            "SUPPORTS": "✅",
+            "REFUTES": "❌",
+            "NOT ENOUGH INFO": "❓"
+        }.get(verdict.status, "•")
         
         markdown += f"""
 ### {i}. {verdict.claim}
