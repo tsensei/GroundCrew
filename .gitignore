@@ -47,8 +47,6 @@ results/
 *report.md
 fact-check-*.md
 
-# Evaluation results
-evals/fever_*.json
-evals/*_results.json
+# FEVER dataset (large file)
 data/fever/
 
