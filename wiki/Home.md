@@ -14,6 +14,7 @@ Welcome to the GroundCrew documentation. GroundCrew is an automated fact-checkin
 
 ### 🛠️ Development
 - **[Development Guide](Development.md)** - Contributing, testing, and code style
+- **[Evaluation](Evaluation.md)** - Benchmarking against FEVER dataset
 - **[Troubleshooting](Troubleshooting.md)** - Common issues and solutions
 
 ### 💡 Learning

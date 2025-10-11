@@ -47,3 +47,8 @@ results/
 *report.md
 fact-check-*.md
 
+# Evaluation results
+fever_evaluation_results.json
+*_evaluation_results.json
+eval_results/
+
