@@ -22,12 +22,17 @@ poetry install
 cp env.template .env
 # Add your OpenAI and Tavily keys to .env
 
-# Run
+# Run with text
 poetry shell
 python main.py "Your text to fact-check"
+
+# Or run with URL (requires FIRECRAWL_API_KEY)
+python main.py --url https://example.com/article
 ```
 
 ## Usage
+
+### Python API
 
 ```python
 from groundcrew.workflow import run_fact_check
@@ -39,6 +44,19 @@ result = run_fact_check(
 )
 
 print(result.final_report)
+```
+
+### CLI with URL Scraping
+
+```bash
+# Fact-check a web page
+python main.py --url https://example.com/article
+
+# With custom output and model
+python main.py -u https://example.com/article -o report.md --model gpt-4
+
+# Combine with Wikipedia-only mode
+python main.py --url https://example.com/article --wikipedia-only
 ```
 
 ## Documentation
@@ -59,6 +77,7 @@ Complete documentation is available in the [wiki](wiki/):
 - ✅ Structured output with Pydantic validation
 - ✅ Type-safe throughout with full type hints
 - ✅ Real-time web search via Tavily
+- ✅ URL scraping with Firecrawl integration
 - ✅ Configurable quality presets
 - ✅ Comprehensive test coverage
 
@@ -87,6 +106,7 @@ See [`evals/`](evals/) for evaluation scripts and detailed results.
 - Python 3.12.6
 - OpenAI API key ([get one](https://platform.openai.com/api-keys))
 - Tavily API key ([get one](https://tavily.com))
+- Firecrawl API key ([get one](https://firecrawl.dev)) - optional, required for URL scraping
 
 ## License
 

@@ -4,8 +4,29 @@ import os
 import sys
 import argparse
 from dotenv import load_dotenv
+from firecrawl import Firecrawl
 
 from groundcrew.workflow import run_fact_check
+
+
+def scrape_url(url: str, firecrawl_api_key: str) -> str:
+    """Scrape markdown content from a URL using Firecrawl"""
+    
+    print(f"\n🔍 Scraping content from: {url}")
+    print("⏳ Please wait, this may take a minute for large pages...")
+    
+    try:
+        firecrawl = Firecrawl(api_key=firecrawl_api_key)
+        result = firecrawl.scrape(url, formats=['markdown'])
+        content = result.markdown
+        print(f"✓ Successfully scraped {len(content)} characters\n")
+        return content
+    except KeyboardInterrupt:
+        print("\n❌ Scraping cancelled by user")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Error scraping URL: {str(e)}")
+        sys.exit(1)
 
 
 def print_report(state):
@@ -43,13 +64,19 @@ def main():
 Examples:
   python main.py "The Eiffel Tower is 330 meters tall"
   python main.py "Your claim" --output report.md
-  python main.py "Your claim" -o report.md --model gpt-4
+  python main.py --url https://example.com/article
+  python main.py -u https://example.com -o report.md --model gpt-4
         """
     )
     parser.add_argument(
         "text",
         nargs="*",
         help="Text to fact-check (default: example text)"
+    )
+    parser.add_argument(
+        "-u", "--url",
+        metavar="URL",
+        help="URL to scrape and fact-check (requires FIRECRAWL_API_KEY)"
     )
     parser.add_argument(
         "-o", "--output",
@@ -75,6 +102,7 @@ Examples:
     
     openai_api_key = os.getenv("OPENAI_API_KEY")
     tavily_api_key = os.getenv("TAVILY_API_KEY")
+    firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
     
     if not openai_api_key:
         print("❌ Error: OPENAI_API_KEY not found in environment variables")
@@ -87,7 +115,14 @@ Examples:
         sys.exit(1)
     
     # Get input text
-    if args.text:
+    if args.url:
+        # URL mode: scrape content from URL
+        if not firecrawl_api_key:
+            print("❌ Error: FIRECRAWL_API_KEY not found in environment variables")
+            print("Please set it in your .env file to use URL scraping")
+            sys.exit(1)
+        input_text = scrape_url(args.url, firecrawl_api_key)
+    elif args.text:
         input_text = " ".join(args.text)
     else:
         # Default example text with factual claims
