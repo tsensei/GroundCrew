@@ -5,13 +5,12 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from tavily import TavilyClient
 
 from groundcrew.models import (
-    Claim,
-    ClaimsList,
-    Evidence,
+    Claim, 
+    ClaimsList, 
+    Evidence, 
     SearchQueries,
-    Verdict,
+    Verdict, 
     VerdictOutput,
-    EvidenceCompletenessCheck,
     FactCheckState
 )
 
@@ -122,15 +121,13 @@ Generate search queries that will find relevant evidence."""
 class VerificationAgent:
     """Agent responsible for verifying claims against evidence"""
     
-    def __init__(self, llm: ChatOpenAI, confidence_threshold: float = 0.7):
+    def __init__(self, llm: ChatOpenAI):
         self.llm = llm
-        self.confidence_threshold = confidence_threshold
-        # Create structured output LLMs for two-stage verification
-        self.completeness_llm = llm.with_structured_output(EvidenceCompletenessCheck)
-        self.verdict_llm = llm.with_structured_output(VerdictOutput)
+        # Create structured output LLM
+        self.structured_llm = llm.with_structured_output(VerdictOutput)
     
     def verify_claims(self, state: FactCheckState) -> FactCheckState:
-        """Verify each claim against its evidence using two-stage verification"""
+        """Verify each claim against its evidence"""
         verdicts = []
         
         for claim in state.claims:
@@ -143,60 +140,9 @@ class VerificationAgent:
             ])
             
             if not evidence_text:
-                # No evidence found - automatically NOT ENOUGH INFO
-                verdicts.append(Verdict(
-                    claim=claim.text,
-                    status="NOT ENOUGH INFO",
-                    confidence=1.0,
-                    justification="No evidence was found for this claim.",
-                    evidence_used=[]
-                ))
-                continue
+                evidence_text = "No evidence found."
             
-            # STAGE 1: Check evidence completeness
-            completeness_prompt = f"""You are evaluating whether evidence is COMPLETE enough to verify a claim.
-
-Your task: Determine if the evidence contains ALL necessary information to verify EVERY specific detail in the claim.
-
-Claim: {claim.text}
-
-Evidence:
-{evidence_text}
-
-Analyze:
-1. Does the evidence DIRECTLY address EACH specific element of the claim?
-2. Is ANY information missing, implied, or unclear?
-3. Could you make a definitive judgment based ONLY on this evidence?
-
-Examples of INCOMPLETE evidence:
-- Claim: "Founded by TWO men" | Evidence: "Founded by Arnold Hills and Dave Taylor" → INCOMPLETE (doesn't say "two")
-- Claim: "Worked on a SITCOM in 2007" | Evidence: "Worked on TV shows in 2007" → INCOMPLETE (doesn't confirm "sitcom")
-- Claim: "Person X is in Movie Y" | Evidence: Lists other movies → INCOMPLETE (doesn't mention Movie Y)
-
-Be strict: If you can't verify EVERY word of the claim, mark as incomplete."""
-            
-            try:
-                completeness_check: EvidenceCompletenessCheck = self.completeness_llm.invoke(
-                    completeness_prompt
-                )
-                
-                # If evidence is incomplete or completeness score is low, return NOT ENOUGH INFO
-                if not completeness_check.is_complete or completeness_check.completeness_score < 0.7:
-                    verdicts.append(Verdict(
-                        claim=claim.text,
-                        status="NOT ENOUGH INFO",
-                        confidence=completeness_check.completeness_score,
-                        justification=f"Evidence is incomplete. Missing: {completeness_check.missing_elements}",
-                        evidence_used=evidence_list[:3]
-                    ))
-                    continue
-                    
-            except Exception as e:
-                print(f"Completeness check error: {str(e)}")
-                # On error, proceed to Stage 2 but with caution
-            
-            # STAGE 2: If evidence is complete, make the judgment
-            verdict_prompt = f"""You are an expert fact-checker responsible for verifying claims.
+            prompt = f"""You are an expert fact-checker responsible for verifying claims.
 
 CRITICAL INSTRUCTIONS FOR ACCURATE VERIFICATION:
 
@@ -237,27 +183,15 @@ Provide your verdict with:
 3. Justification: Explain whether evidence DIRECTLY addresses ALL claim specifics"""
             
             try:
-                verdict_output: VerdictOutput = self.verdict_llm.invoke(verdict_prompt)
-                
-                # CONFIDENCE THRESHOLD: If confidence is too low, route to NOT ENOUGH INFO
-                if verdict_output.status != "NOT ENOUGH INFO" and verdict_output.confidence < self.confidence_threshold:
-                    verdict = Verdict(
-                        claim=claim.text,
-                        status="NOT ENOUGH INFO",
-                        confidence=verdict_output.confidence,
-                        justification=f"Low confidence ({verdict_output.confidence:.2f} < {self.confidence_threshold}). Original: {verdict_output.status}. {verdict_output.justification}",
-                        evidence_used=evidence_list[:3]
-                    )
-                else:
-                    verdict = Verdict(
-                        claim=claim.text,
-                        status=verdict_output.status,
-                        confidence=verdict_output.confidence,
-                        justification=verdict_output.justification,
-                        evidence_used=evidence_list[:3]
-                    )
+                verdict_output: VerdictOutput = self.structured_llm.invoke(prompt)
+                verdict = Verdict(
+                    claim=claim.text,
+                    status=verdict_output.status,
+                    confidence=verdict_output.confidence,
+                    justification=verdict_output.justification,
+                    evidence_used=evidence_list[:3]  # Include top 3 evidence pieces
+                )
                 verdicts.append(verdict)
-                
             except Exception as e:
                 # Fallback verdict
                 verdicts.append(Verdict(
