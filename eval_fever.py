@@ -6,6 +6,7 @@ import random
 from datetime import datetime
 from typing import Dict, List
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 from tqdm import tqdm
 
@@ -205,18 +206,94 @@ def load_fever_subset(num_samples: int = 100, data_dir: str = "data/fever") -> L
         return []
 
 
+def process_single_claim(
+    item: Dict,
+    openai_api_key: str,
+    tavily_api_key: str,
+    index: int
+) -> Dict:
+    """
+    Process a single FEVER claim.
+    
+    Args:
+        item: FEVER dataset item
+        openai_api_key: OpenAI API key
+        tavily_api_key: Tavily API key
+        index: Claim index (for tracking)
+        
+    Returns:
+        Result dictionary with prediction and metadata
+    """
+    try:
+        # Extract claim and label
+        claim = item.get('claim', '')
+        true_label = item.get('label', 'NOT ENOUGH INFO')
+        
+        # Handle different label formats
+        if isinstance(true_label, int):
+            label_map = {0: "SUPPORTS", 1: "REFUTES", 2: "NOT ENOUGH INFO"}
+            true_label = label_map.get(true_label, "NOT ENOUGH INFO")
+        
+        # Run GroundCrew fact-check
+        result = run_fact_check(
+            input_text=claim,
+            openai_api_key=openai_api_key,
+            tavily_api_key=tavily_api_key,
+            model_name="gpt-4o-mini"
+        )
+        
+        # Get prediction
+        if result.verdicts:
+            predicted_status = result.verdicts[0].status
+            predicted_label = map_verdict_to_fever(predicted_status)
+            confidence = result.verdicts[0].confidence
+            justification = result.verdicts[0].justification
+        else:
+            predicted_label = "NOT ENOUGH INFO"
+            confidence = 0.0
+            justification = "No verdict generated"
+        
+        # Check correctness
+        is_correct = (predicted_label == true_label)
+        
+        return {
+            "index": index,
+            "claim": claim,
+            "true_label": true_label,
+            "predicted_label": predicted_label,
+            "correct": is_correct,
+            "confidence": confidence,
+            "justification": justification[:200],
+            "error": result.error if result.error else None
+        }
+        
+    except Exception as e:
+        return {
+            "index": index,
+            "claim": item.get('claim', 'Unknown'),
+            "error": str(e),
+            "correct": False,
+            "true_label": item.get('label', 'NOT ENOUGH INFO'),
+            "predicted_label": "NOT ENOUGH INFO",
+            "confidence": 0.0,
+            "justification": ""
+        }
+
+
 def evaluate_on_fever(
     num_samples: int = 100,
     output_file: str = "fever_evaluation_results.json",
-    data_dir: str = "data/fever"
+    data_dir: str = "data/fever",
+    max_workers: int = 10
 ) -> Dict:
     """
-    Evaluate GroundCrew on FEVER dataset.
+    Evaluate GroundCrew on FEVER dataset with parallel processing.
     
     Args:
         num_samples: Number of samples to evaluate (50-500 recommended)
         output_file: Path to save results
         data_dir: Directory containing FEVER data
+        max_workers: Number of parallel workers (default: 10)
         
     Returns:
         Dictionary with evaluation metrics and results
@@ -251,76 +328,53 @@ def evaluate_on_fever(
     }
     
     print(f"\n{'='*70}")
-    print("Evaluating GroundCrew on FEVER Dataset")
+    print(f"Evaluating GroundCrew on FEVER Dataset (Parallel: {max_workers} workers)")
     print(f"{'='*70}\n")
     
-    # Process each claim
-    for i, item in enumerate(tqdm(fever_data, desc="Processing claims")):
-        try:
-            # Extract claim and label
-            claim = item.get('claim', '')
-            true_label = item.get('label', 'NOT ENOUGH INFO')
-            
-            # Handle different label formats
-            if isinstance(true_label, int):
-                # Some versions use integer labels
-                label_map = {0: "SUPPORTS", 1: "REFUTES", 2: "NOT ENOUGH INFO"}
-                true_label = label_map.get(true_label, "NOT ENOUGH INFO")
-            
-            # Run GroundCrew fact-check
-            result = run_fact_check(
-                input_text=claim,
-                openai_api_key=openai_api_key,
-                tavily_api_key=tavily_api_key,
-                model_name="gpt-4o-mini"
-            )
-            
-            # Get prediction
-            if result.verdicts:
-                predicted_status = result.verdicts[0].status
-                predicted_label = map_verdict_to_fever(predicted_status)
-                confidence = result.verdicts[0].confidence
-                justification = result.verdicts[0].justification
-            else:
-                predicted_label = "NOT ENOUGH INFO"
-                confidence = 0.0
-                justification = "No verdict generated"
-            
-            # Check correctness
-            is_correct = (predicted_label == true_label)
-            
-            if is_correct:
-                correct += 1
-                label_stats[true_label]["correct"] += 1
-            
-            total += 1
-            label_stats[true_label]["total"] += 1
-            
-            # Store result
-            result_entry = {
-                "claim": claim,
-                "true_label": true_label,
-                "predicted_label": predicted_label,
-                "correct": is_correct,
-                "confidence": confidence,
-                "justification": justification[:200],  # Truncate for readability
-                "error": result.error if result.error else None
-            }
-            results.append(result_entry)
-            
-            # Print progress every 10 items
-            if (i + 1) % 10 == 0:
-                current_accuracy = correct / total
-                print(f"\nProgress: {i+1}/{len(fever_data)} | Accuracy: {current_accuracy:.2%}")
+    # Process claims in parallel
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all tasks
+        future_to_item = {
+            executor.submit(
+                process_single_claim,
+                item,
+                openai_api_key,
+                tavily_api_key,
+                i
+            ): i for i, item in enumerate(fever_data)
+        }
         
-        except Exception as e:
-            print(f"\nError processing claim {i+1}: {e}")
-            results.append({
-                "claim": claim if 'claim' in locals() else "Unknown",
-                "error": str(e),
-                "correct": False
-            })
-            total += 1
+        # Process completed tasks with progress bar
+        with tqdm(total=len(fever_data), desc="Processing claims") as pbar:
+            for future in as_completed(future_to_item):
+                try:
+                    result_entry = future.result()
+                    
+                    # Update statistics
+                    true_label = result_entry["true_label"]
+                    if result_entry["correct"]:
+                        correct += 1
+                        label_stats[true_label]["correct"] += 1
+                    
+                    total += 1
+                    label_stats[true_label]["total"] += 1
+                    
+                    results.append(result_entry)
+                    
+                except Exception as e:
+                    print(f"\n⚠️  Error in worker: {e}")
+                    total += 1
+                
+                # Update progress bar
+                pbar.update(1)
+                
+                # Show current accuracy every 10 items
+                if total > 0 and total % 10 == 0:
+                    current_accuracy = correct / total
+                    pbar.set_postfix({"Accuracy": f"{current_accuracy:.2%}"})
+    
+    # Sort results by original index to maintain order
+    results.sort(key=lambda x: x.get("index", 0))
     
     # Calculate final metrics
     accuracy = correct / total if total > 0 else 0
@@ -471,6 +525,12 @@ if __name__ == "__main__":
         default="data/fever",
         help="Directory to store/load FEVER data"
     )
+    parser.add_argument(
+        "-w", "--workers",
+        type=int,
+        default=10,
+        help="Number of parallel workers (default: 10)"
+    )
     
     args = parser.parse_args()
     
@@ -480,6 +540,7 @@ if __name__ == "__main__":
         evaluate_on_fever(
             num_samples=args.num_samples,
             output_file=args.output,
-            data_dir=args.data_dir
+            data_dir=args.data_dir,
+            max_workers=args.workers
         )
 

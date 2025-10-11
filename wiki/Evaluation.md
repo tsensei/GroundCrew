@@ -17,17 +17,38 @@ GroundCrew can be evaluated against the [FEVER (Fact Extraction and VERification
 
 ```bash
 # Evaluate on 100 samples (recommended for first run)
-python eval_fever.py -n 100
+# Uses 10 parallel workers by default for faster evaluation
+poetry run python eval_fever.py -n 100
 
 # Evaluate on larger set
-python eval_fever.py -n 500
+poetry run python eval_fever.py -n 500
 
-# Custom output file
-python eval_fever.py -n 100 -o my_results.json
+# Custom output file and number of workers
+poetry run python eval_fever.py -n 100 -o my_results.json -w 20
+
+# Reduce workers if hitting rate limits
+poetry run python eval_fever.py -n 100 -w 5
 
 # Analyze existing results
-python eval_fever.py --analyze -o fever_evaluation_results.json
+poetry run python eval_fever.py --analyze -o fever_evaluation_results.json
 ```
+
+### Parallel Processing
+
+The evaluation script uses **parallel processing** with ThreadPoolExecutor for much faster evaluation:
+
+- **Default**: 10 parallel workers
+- **Speed**: ~10x faster than sequential processing
+- **Configurable**: Use `-w` or `--workers` to adjust
+
+**Example performance:**
+- Sequential: 20s per claim = 33+ minutes for 100 claims
+- Parallel (10 workers): ~2-4 minutes for 100 claims ⚡
+
+**Adjust workers based on:**
+- **API rate limits**: Reduce workers (5-10) if hitting limits
+- **Speed needs**: Increase workers (15-20) for faster evaluation
+- **Cost**: More workers = faster but higher parallel API costs
 
 ### Understanding Results
 
@@ -192,13 +213,17 @@ Possible causes:
 
 ### Sample Size Recommendations
 
+**With Parallel Processing (10 workers):**
+
 | Purpose | Samples | Time | Cost (approx) |
 |---------|---------|------|---------------|
-| Quick test | 50 | ~15 min | $2-5 |
-| Standard eval | 100 | ~30 min | $5-10 |
-| Thorough eval | 200-500 | 1-3 hours | $20-50 |
+| Quick test | 50 | ~2-3 min | $2-5 |
+| Standard eval | 100 | ~3-5 min | $5-10 |
+| Thorough eval | 200-500 | ~10-25 min | $20-50 |
 
 Cost assumes gpt-4o-mini. GPT-4 is 10x more expensive.
+
+**Note**: Times are approximate with 10 parallel workers. Actual time depends on API response times and rate limits.
 
 ### Custom Evaluation
 
