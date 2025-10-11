@@ -73,7 +73,7 @@ Complete documentation is available in the [wiki](wiki/):
 
 ## Requirements
 
-- Python 3.10+
+- Python 3.12.6
 - OpenAI API key ([get one](https://platform.openai.com/api-keys))
 - Tavily API key ([get one](https://tavily.com))
 

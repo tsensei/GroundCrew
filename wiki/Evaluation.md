@@ -306,7 +306,6 @@ Our system struggles with NOT ENOUGH INFO (36-42% vs 88-91% on other labels):
 - Stricter evidence matching (implemented in current prompt)
 - Two-stage verification (check completeness first)
 - Confidence calibration
-- See `NEXT_FIXES_FOR_NEI.md` for detailed analysis
 
 ## Cost Estimation
 

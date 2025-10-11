@@ -4,7 +4,7 @@ Get up and running with GroundCrew in 5 minutes.
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.12.6
 - Poetry ([install](https://python-poetry.org/docs/#installation))
 - OpenAI API key
 - Tavily API key
