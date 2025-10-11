@@ -51,4 +51,5 @@ fact-check-*.md
 fever_evaluation_results.json
 *_evaluation_results.json
 eval_results/
+data/fever/
 
