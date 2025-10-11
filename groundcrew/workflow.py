@@ -190,13 +190,12 @@ def _save_report_to_markdown(state: FactCheckState, filepath: str) -> None:
 
 """
     
-    for i, verdict in enumerate(state.verdicts, 1):
-        status_emoji = {
-            "supported": "✅",
-            "refuted": "❌",
-            "mixed": "⚠️",
-            "not_enough_info": "❓"
-        }.get(verdict.status, "•")
+        for i, verdict in enumerate(state.verdicts, 1):
+            status_emoji = {
+                "SUPPORTS": "✅",
+                "REFUTES": "❌",
+                "NOT ENOUGH INFO": "❓"
+            }.get(verdict.status, "•")
         
         markdown += f"""
 ### {i}. {verdict.claim}

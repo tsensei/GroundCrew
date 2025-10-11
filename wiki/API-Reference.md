@@ -102,7 +102,7 @@ LLM output for verification (used internally for structured output).
 
 ```python
 class VerdictOutput(BaseModel):
-    status: Literal["supported", "refuted", "mixed", "not_enough_info"]
+    status: Literal["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"]
     confidence: float  # Confidence level (0.0-1.0)
     justification: str  # Explanation
 ```
@@ -114,7 +114,7 @@ Complete verdict for a claim including evidence.
 ```python
 class Verdict(BaseModel):
     claim: str  # The original claim
-    status: Literal["supported", "refuted", "mixed", "not_enough_info"]
+    status: Literal["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"]
     confidence: float  # Confidence level (0-1)
     justification: str  # Explanation
     evidence_used: List[Evidence] = []  # Supporting evidence
@@ -124,7 +124,7 @@ class Verdict(BaseModel):
 ```python
 verdict = Verdict(
     claim="The Earth is round",
-    status="supported",
+    status="SUPPORTS",
     confidence=0.99,
     justification="Overwhelming evidence from multiple sources",
     evidence_used=[evidence1, evidence2]
@@ -366,13 +366,13 @@ All models use Pydantic for validation:
 ```python
 # Confidence must be 0.0-1.0
 verdict = VerdictOutput(
-    status="supported",
+    status="SUPPORTS",
     confidence=0.95,  # ✅ Valid
     justification="..."
 )
 
 verdict = VerdictOutput(
-    status="supported",
+    status="SUPPORTS",
     confidence=1.5,  # ❌ ValidationError
     justification="..."
 )

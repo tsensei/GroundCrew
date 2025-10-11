@@ -81,10 +81,9 @@ def demo_multiple_claims():
     print("\n" + "-"*70)
     for i, verdict in enumerate(result.verdicts, 1):
         status_emoji = {
-            "supported": "✅",
-            "refuted": "❌",
-            "mixed": "⚠️",
-            "not_enough_info": "❓"
+            "SUPPORTS": "✅",
+            "REFUTES": "❌",
+            "NOT ENOUGH INFO": "❓"
         }.get(verdict.status, "•")
         
         print(f"\n[{i}] {status_emoji} {verdict.status.upper()}")

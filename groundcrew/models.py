@@ -29,8 +29,8 @@ class Evidence(BaseModel):
 
 class VerdictOutput(BaseModel):
     """Verification verdict output from LLM (without evidence)"""
-    status: Literal["supported", "refuted", "mixed", "not_enough_info"] = Field(
-        description="Truth status of the claim"
+    status: Literal["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"] = Field(
+        description="Truth status of the claim (FEVER-compliant labels)"
     )
     confidence: float = Field(description="Confidence level (0-1)", ge=0.0, le=1.0)
     justification: str = Field(description="Explanation for the verdict")
@@ -39,8 +39,8 @@ class VerdictOutput(BaseModel):
 class Verdict(BaseModel):
     """Verification verdict for a claim"""
     claim: str = Field(description="The original claim")
-    status: Literal["supported", "refuted", "mixed", "not_enough_info"] = Field(
-        description="Truth status of the claim"
+    status: Literal["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"] = Field(
+        description="Truth status of the claim (FEVER-compliant labels)"
     )
     confidence: float = Field(description="Confidence level (0-1)")
     justification: str = Field(description="Explanation for the verdict")

@@ -137,11 +137,12 @@ class VerificationAgent:
             
             prompt = f"""You are an expert fact-checker responsible for verifying claims.
 Analyze the claim and the evidence provided, then determine:
-1. Status: "supported", "refuted", "mixed", or "not_enough_info"
+1. Status: Must be one of: "SUPPORTS" (evidence confirms the claim), "REFUTES" (evidence contradicts the claim), or "NOT ENOUGH INFO" (insufficient evidence)
 2. Confidence: a score from 0 to 1
 3. Justification: a clear explanation of your reasoning
 
 Be objective and base your verdict strictly on the evidence provided.
+Use the exact status labels: SUPPORTS, REFUTES, or NOT ENOUGH INFO (these are FEVER dataset compliant labels).
 
 Claim: {claim.text}
 
@@ -164,7 +165,7 @@ Provide your verdict:"""
                 # Fallback verdict
                 verdicts.append(Verdict(
                     claim=claim.text,
-                    status="not_enough_info",
+                    status="NOT ENOUGH INFO",
                     confidence=0.0,
                     justification=f"Error processing verdict: {str(e)}",
                     evidence_used=evidence_list[:3]

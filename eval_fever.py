@@ -16,13 +16,20 @@ def map_verdict_to_fever(verdict_status: str) -> str:
     """
     Map GroundCrew verdict status to FEVER labels.
     
-    GroundCrew: supported, refuted, mixed, not_enough_info
-    FEVER: SUPPORTS, REFUTES, NOT ENOUGH INFO
+    GroundCrew now outputs FEVER-compliant labels directly:
+    SUPPORTS, REFUTES, NOT ENOUGH INFO
+    
+    This function is kept for backwards compatibility but should pass through.
     """
+    # GroundCrew now outputs FEVER labels directly
+    if verdict_status in ["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"]:
+        return verdict_status
+    
+    # Legacy mapping for old format (backwards compatibility)
     mapping = {
         "supported": "SUPPORTS",
         "refuted": "REFUTES",
-        "mixed": "NOT ENOUGH INFO",  # Conservative: treat mixed as NEI
+        "mixed": "NOT ENOUGH INFO",
         "not_enough_info": "NOT ENOUGH INFO"
     }
     return mapping.get(verdict_status, "NOT ENOUGH INFO")

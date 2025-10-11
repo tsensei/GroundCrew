@@ -211,10 +211,9 @@ markdown = f"""# Fact-Check Report
 
 for i, verdict in enumerate(result.verdicts, 1):
     status_emoji = {
-        "supported": "✅",
-        "refuted": "❌",
-        "mixed": "⚠️",
-        "not_enough_info": "❓"
+            "SUPPORTS": "✅",
+            "REFUTES": "❌",
+            "NOT ENOUGH INFO": "❓"
     }.get(verdict.status, "•")
     
     markdown += f"""
@@ -404,10 +403,9 @@ async def on_message(message):
         response = f"**Fact-Check Results**\n\n"
         for v in result.verdicts[:3]:  # Limit to 3
             status_emoji = {
-                "supported": "✅",
-                "refuted": "❌",
-                "mixed": "⚠️",
-                "not_enough_info": "❓"
+            "SUPPORTS": "✅",
+            "REFUTES": "❌",
+            "NOT ENOUGH INFO": "❓"
             }.get(v.status, "•")
             
             response += f"{status_emoji} {v.claim}\n"

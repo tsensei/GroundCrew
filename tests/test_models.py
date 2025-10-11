@@ -41,12 +41,12 @@ def test_verdict_creation():
     """Test Verdict model"""
     verdict = Verdict(
         claim="Test claim",
-        status="supported",
+        status="SUPPORTS",
         confidence=0.95,
         justification="Evidence supports the claim"
     )
     assert verdict.claim == "Test claim"
-    assert verdict.status == "supported"
+    assert verdict.status == "SUPPORTS"
     assert verdict.confidence == 0.95
 
 
@@ -77,8 +77,8 @@ def test_fact_check_state_with_claims():
 
 def test_verdict_status_validation():
     """Test Verdict status validation"""
-    # Valid statuses
-    for status in ["supported", "refuted", "mixed", "not_enough_info"]:
+    # Valid statuses (FEVER-compliant labels)
+    for status in ["SUPPORTS", "REFUTES", "NOT ENOUGH INFO"]:
         verdict = Verdict(
             claim="Test",
             status=status,
@@ -112,12 +112,12 @@ def test_search_queries_creation():
 def test_verdict_output_creation():
     """Test VerdictOutput model for structured output"""
     verdict_output = VerdictOutput(
-        status="supported",
+        status="SUPPORTS",
         confidence=0.95,
         justification="Evidence clearly supports the claim"
     )
     
-    assert verdict_output.status == "supported"
+    assert verdict_output.status == "SUPPORTS"
     assert verdict_output.confidence == 0.95
     assert verdict_output.justification == "Evidence clearly supports the claim"
 
@@ -126,7 +126,7 @@ def test_verdict_output_confidence_bounds():
     """Test VerdictOutput confidence is bounded between 0 and 1"""
     # Valid confidence
     verdict = VerdictOutput(
-        status="supported",
+        status="SUPPORTS",
         confidence=0.5,
         justification="Test"
     )
@@ -134,14 +134,14 @@ def test_verdict_output_confidence_bounds():
     
     # Test edge cases
     verdict_min = VerdictOutput(
-        status="not_enough_info",
+        status="NOT ENOUGH INFO",
         confidence=0.0,
         justification="No evidence"
     )
     assert verdict_min.confidence == 0.0
     
     verdict_max = VerdictOutput(
-        status="supported",
+        status="SUPPORTS",
         confidence=1.0,
         justification="Conclusive evidence"
     )

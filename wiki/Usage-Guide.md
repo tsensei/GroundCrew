@@ -205,10 +205,11 @@ with open("verdicts.csv", "w") as f:
 
 | Status | Meaning | Emoji |
 |--------|---------|-------|
-| `supported` | Evidence confirms the claim | ✅ |
-| `refuted` | Evidence contradicts the claim | ❌ |
-| `mixed` | Evidence both supports and refutes | ⚠️ |
-| `not_enough_info` | Insufficient evidence found | ❓ |
+| `SUPPORTS` | Evidence confirms the claim | ✅ |
+| `REFUTES` | Evidence contradicts the claim | ❌ |
+| `NOT ENOUGH INFO` | Insufficient evidence found | ❓ |
+
+**Note**: These are FEVER-compliant labels for standardized fact-checking evaluation.
 
 ## Best Practices
 

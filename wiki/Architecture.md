@@ -32,7 +32,7 @@ GroundCrew implements a **sequential multi-agent pipeline** using LangGraph for 
 ┌────────────────────────────────────────────────────────────────┐
 │  STAGE 3: Verification Agent                                  │
 │  • Analyzes claim vs evidence with LLM                        │
-│  • Determines verdict (supported/refuted/mixed/not_enough)    │
+│  • Determines verdict (SUPPORTS/REFUTES/NOT ENOUGH INFO)      │
 │  • Assigns confidence score (0-1)                             │
 │  • Generates justification                                    │
 │  Output: List[Verdict]                                        │
@@ -133,15 +133,14 @@ ClaimsList(claims=[
 **Implementation**:
 - Analyzes claim against collected evidence using LLM
 - Returns `VerdictOutput` Pydantic model
-- Determines verdict: `supported`, `refuted`, `mixed`, or `not_enough_info`
+- Determines verdict: `SUPPORTS`, `REFUTES`, or `NOT ENOUGH INFO` (FEVER-compliant labels)
 - Assigns confidence score (0.0-1.0)
 - Generates detailed justification
 
-**Verdict Logic**:
-- **Supported**: Evidence consistently confirms the claim
-- **Refuted**: Evidence consistently contradicts the claim
-- **Mixed**: Evidence both supports and contradicts
-- **Not Enough Info**: Insufficient or unclear evidence
+**Verdict Logic** (FEVER-compliant):
+- **SUPPORTS**: Evidence consistently confirms the claim
+- **REFUTES**: Evidence consistently contradicts the claim
+- **NOT ENOUGH INFO**: Insufficient or unclear evidence
 
 ### 4. Reporting Agent
 
@@ -289,7 +288,7 @@ app = workflow.compile()
 
 - Claim extraction fails → treat input as single claim
 - Search fails → proceed with partial evidence
-- Verification fails → return "not_enough_info"
+- Verification fails → return "NOT ENOUGH INFO"
 - Errors tracked in `state.error` field
 
 ### Validation

@@ -117,7 +117,7 @@ List of factual statements extracted from the input
 
 ### 2. Verdicts
 For each claim:
-- **Status**: `supported`, `refuted`, `mixed`, or `not_enough_info`
+- **Status**: `SUPPORTS`, `REFUTES`, or `NOT ENOUGH INFO` (FEVER-compliant labels)
 - **Confidence**: 0-100% confidence score
 - **Justification**: Explanation of the verdict
 - **Evidence**: Sources and snippets used
@@ -129,7 +129,7 @@ Human-readable summary of all findings
 
 ```
 [Claim 1] Python was created by Guido van Rossum in 1991.
-Status: SUPPORTED (Confidence: 95%)
+Status: SUPPORTS (Confidence: 95%)
 Justification: Multiple reliable sources confirm that Guido van Rossum 
 created Python, with the first version released in 1991.
 

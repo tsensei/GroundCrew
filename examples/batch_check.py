@@ -79,10 +79,9 @@ if __name__ == "__main__":
         
         for verdict in result['verdicts']:
             status_emoji = {
-                "supported": "✅",
-                "refuted": "❌",
-                "mixed": "⚠️",
-                "not_enough_info": "❓"
+                "SUPPORTS": "✅",
+                "REFUTES": "❌",
+                "NOT ENOUGH INFO": "❓"
             }.get(verdict.status, "•")
             
             print(f"    {status_emoji} {verdict.status.upper()} - {verdict.claim[:60]}...")
