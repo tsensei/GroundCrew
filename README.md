@@ -70,6 +70,7 @@ Complete documentation is available in the [wiki](wiki/):
 - **[Examples](wiki/Examples.md)** - Code examples and use cases
 - **[Development](wiki/Development.md)** - Contributing and extending
 - **[Troubleshooting](wiki/Troubleshooting.md)** - Common issues and solutions
+- **[TCC Observability](TCC_OBSERVABILITY.md)** - Track and analyze agent runs with TCC
 
 ## Features
 
@@ -80,6 +81,7 @@ Complete documentation is available in the [wiki](wiki/):
 - ✅ URL scraping with Firecrawl integration
 - ✅ Configurable quality presets
 - ✅ Comprehensive test coverage
+- ✅ **TCC Observability** - Track agent runs, steps, and tool calls with custom metadata
 
 ## Performance
 
@@ -107,6 +109,7 @@ See [`evals/`](evals/) for evaluation scripts and detailed results.
 - OpenAI API key ([get one](https://platform.openai.com/api-keys))
 - Tavily API key ([get one](https://tavily.com))
 - Firecrawl API key ([get one](https://firecrawl.dev)) - optional, required for URL scraping
+- TCC API key ([get one](https://tcc.ai)) - optional, for observability and monitoring
 
 ## License
 

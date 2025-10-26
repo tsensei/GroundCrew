@@ -4,8 +4,19 @@ import os
 import sys
 import argparse
 from dotenv import load_dotenv
-from firecrawl import Firecrawl
 
+# Load environment variables FIRST
+load_dotenv()
+
+# Import and initialize TCC instrumentation BEFORE importing LangGraph/LangChain
+from tcc_otel import instrument_langchain
+
+instrument_langchain(
+    api_key=os.getenv("TCC_API_KEY"),
+)
+
+# Now import the rest of the dependencies
+from firecrawl import Firecrawl
 from groundcrew.workflow import run_fact_check
 
 
@@ -96,10 +107,8 @@ Examples:
     )
 
     args = parser.parse_args()
-    
-    # Load environment variables
-    load_dotenv()
-    
+
+    # Get environment variables (already loaded at module initialization)
     openai_api_key = os.getenv("OPENAI_API_KEY")
     tavily_api_key = os.getenv("TAVILY_API_KEY")
     firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")

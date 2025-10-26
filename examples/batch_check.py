@@ -2,9 +2,19 @@
 
 import os
 from dotenv import load_dotenv
-from groundcrew.workflow import run_fact_check
 
+# Load environment variables FIRST
 load_dotenv()
+
+# Import and initialize TCC instrumentation BEFORE importing LangGraph/LangChain
+from tcc_otel import instrument_langchain
+
+instrument_langchain(
+    api_key=os.getenv("TCC_API_KEY"),
+)
+
+# Now import the rest of the dependencies
+from groundcrew.workflow import run_fact_check
 
 
 def batch_fact_check(texts: list[str]):

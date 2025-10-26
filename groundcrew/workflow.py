@@ -113,11 +113,12 @@ def run_fact_check(
     tavily_api_key: str,
     model_name: str = "gpt-4o-mini",
     output_file: str = None,
-    search_domain: str = None
+    search_domain: str = None,
+    metadata: dict = None
 ) -> FactCheckState:
     """
     Run the complete fact-checking pipeline on input text.
-    
+
     Args:
         input_text: Text to fact-check
         openai_api_key: OpenAI API key
@@ -125,7 +126,8 @@ def run_fact_check(
         model_name: OpenAI model to use
         output_file: Optional path to save report as markdown file
         search_domain: Optional domain to restrict search (e.g., "wikipedia.org")
-        
+        metadata: Optional custom metadata to tag this agent run (e.g., {"userId": "123", "feature": "fact-check"})
+
     Returns:
         Final FactCheckState with all results
     """
@@ -151,9 +153,14 @@ def run_fact_check(
     # Run workflow
     print("Pipeline Stages:")
     print("-" * 70)
-    
-    result = workflow.invoke({"state": initial_state})
-    
+
+    # Prepare RunnableConfig with metadata for observability
+    config = {}
+    if metadata:
+        config["metadata"] = metadata
+
+    result = workflow.invoke({"state": initial_state}, config if config else None)
+
     print("-" * 70)
     print("\n✅ Fact-checking complete!\n")
     
